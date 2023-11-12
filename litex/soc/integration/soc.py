@@ -298,25 +298,7 @@ class SoCBusHandler(Module):
         else:
             converted_interface = interface
 
-        # Wishbone <-> AXILite bridging
-        main_bus_cls = {
-            "wishbone": wishbone.Interface,
-            "axi-lite": axi.AXILiteInterface,
-        }[self.standard]
-        if isinstance(converted_interface, main_bus_cls):
-            bridged_interface = converted_interface
-        else:
-            bridged_interface = main_bus_cls(data_width=self.data_width)
-            if direction == "m2s":
-                master, slave = converted_interface, bridged_interface
-            elif direction == "s2m":
-                master, slave = bridged_interface, converted_interface
-            bridge_cls = {
-                (wishbone.Interface, axi.AXILiteInterface): axi.Wishbone2AXILite,
-                (axi.AXILiteInterface, wishbone.Interface): axi.AXILite2Wishbone,
-            }[type(master), type(slave)]
-            bridge = bridge_cls(master, slave)
-            self.submodules += bridge
+        bridged_interface = converted_interface
 
         if type(interface) != type(bridged_interface) or interface.data_width != bridged_interface.data_width:
             fmt = "{name} Bus {converted} from {frombus} {frombits}-bit to {tobus} {tobits}-bit."
