@@ -796,7 +796,7 @@ int sdrlevel(void)
 
 int sdrinit(void)
 {
-	printf("Initializing DRAM @0x%08x...\n", MAIN_RAM_BASE);
+	printf("Initializing DRAM @0x%08lx...\n", MAIN_RAM_BASE);
 
 #if CSR_DDRPHY_RST_ADDR
 	ddrphy_rst_write(1);
