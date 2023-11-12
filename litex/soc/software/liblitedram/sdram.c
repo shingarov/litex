@@ -796,7 +796,7 @@ int sdrlevel(void)
 
 int sdrinit(void)
 {
-	printf("Initializing DRAM @0x%08x...\n", MAIN_RAM_BASE);
+	printf("Initializing DRAM @0x%08lx...\n", MAIN_RAM_BASE);
 
 #ifdef CSR_DDRCTRL_BASE
 	ddrctrl_init_done_write(0);
